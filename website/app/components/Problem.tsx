@@ -78,9 +78,13 @@ export default function Problem() {
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-red-400/70 font-mono mb-4">
-            The Crisis
-          </p>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs text-white/10 font-mono">01</span>
+            <div className="w-8 h-px bg-white/10" />
+            <p className="text-xs tracking-[0.3em] uppercase text-red-400/70 font-mono">
+              The Crisis
+            </p>
+          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight max-w-4xl">
             Forever chemicals are{" "}
             <span className="text-red-400">everywhere.</span>

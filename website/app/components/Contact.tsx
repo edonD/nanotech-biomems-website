@@ -25,9 +25,13 @@ export default function Contact() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-accent-cyan/70 font-mono mb-4">
-            Pilot Program
-          </p>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs text-white/10 font-mono">10</span>
+            <div className="w-8 h-px bg-white/10" />
+            <p className="text-xs tracking-[0.3em] uppercase text-accent-cyan/70 font-mono">
+              Pilot Program
+            </p>
+          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6">
             Be first to{" "}
             <span className="gradient-text">test your water.</span>

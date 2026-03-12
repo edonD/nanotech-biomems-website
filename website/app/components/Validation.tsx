@@ -4,14 +4,14 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useCountUp } from "./useCountUp";
 
-function AnimatedBar({ label, value, maxValue, color, delay, isInView }: {
-  label: string; value: number; maxValue: number; color: string; delay: number; isInView: boolean;
+function AnimatedBar({ label, value, maxValue, color, delay, isInView, highlight }: {
+  label: string; value: number; maxValue: number; color: string; delay: number; isInView: boolean; highlight?: boolean;
 }) {
-  const width = (value / maxValue) * 100;
+  const width = Math.max((value / maxValue) * 100, 4);
   return (
-    <div className="flex items-center gap-4">
-      <span className="text-xs font-mono text-white/40 w-28 text-right flex-shrink-0">{label}</span>
-      <div className="flex-1 h-6 bg-white/5 rounded-full overflow-hidden relative">
+    <div className={`flex items-center gap-4 py-1.5 px-2 -mx-2 rounded-lg transition-colors ${highlight ? "bg-accent-cyan/[0.04]" : ""}`}>
+      <span className={`text-xs font-mono w-28 text-right flex-shrink-0 ${highlight ? "text-accent-cyan/70 font-semibold" : "text-white/40"}`}>{label}</span>
+      <div className="flex-1 h-7 bg-white/5 rounded-full overflow-hidden relative">
         <motion.div
           initial={{ width: 0 }}
           animate={isInView ? { width: `${width}%` } : {}}
@@ -22,7 +22,7 @@ function AnimatedBar({ label, value, maxValue, color, delay, isInView }: {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: delay + 0.8 }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono font-bold text-white/80"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono font-bold text-white/90"
           >
             {value < 1 ? `${value} ppt` : value < 1000 ? `${value} ppt` : `${(value / 1000).toFixed(0)}K ppt`}
           </motion.span>
@@ -91,9 +91,13 @@ export default function Validation() {
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-accent-green/70 font-mono mb-4">
-            Scientific Validation
-          </p>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs text-white/10 font-mono">07</span>
+            <div className="w-8 h-px bg-white/10" />
+            <p className="text-xs tracking-[0.3em] uppercase text-accent-green/70 font-mono">
+              Scientific Validation
+            </p>
+          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight max-w-4xl">
             Proven science.{" "}
             <span className="gradient-text">Published results.</span>
@@ -165,6 +169,7 @@ export default function Validation() {
                   color={item.color}
                   delay={0.5 + i * 0.15}
                   isInView={isInView}
+                  highlight={item.label === "VERIDIAN"}
                 />
               ))}
             </div>

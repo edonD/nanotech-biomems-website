@@ -83,9 +83,13 @@ export default function WhyNow() {
           transition={{ duration: 0.7 }}
           className="text-center mb-20"
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-amber-400/70 font-mono mb-4">
-            Timing
-          </p>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="text-xs text-white/10 font-mono">04</span>
+            <div className="w-8 h-px bg-white/10" />
+            <p className="text-xs tracking-[0.3em] uppercase text-amber-400/70 font-mono">
+              Timing
+            </p>
+          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
             Why <span className="text-amber-400">now?</span>
           </h2>

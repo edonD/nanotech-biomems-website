@@ -55,9 +55,13 @@ export default function Product() {
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-accent-green/70 font-mono mb-4">
-            The Product
-          </p>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs text-white/10 font-mono">05</span>
+            <div className="w-8 h-px bg-white/10" />
+            <p className="text-xs tracking-[0.3em] uppercase text-accent-green/70 font-mono">
+              The Product
+            </p>
+          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight max-w-4xl">
             Lab-grade sensing.{" "}
             <span className="gradient-text">Field-ready design.</span>

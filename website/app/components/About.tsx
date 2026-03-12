@@ -25,9 +25,13 @@ export default function About() {
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-accent-blue/70 font-mono mb-4">
-            About
-          </p>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs text-white/10 font-mono">09</span>
+            <div className="w-8 h-px bg-white/10" />
+            <p className="text-xs tracking-[0.3em] uppercase text-accent-blue/70 font-mono">
+              About
+            </p>
+          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight max-w-4xl">
             Built by engineers who{" "}
             <span className="gradient-text">think in nanometers.</span>
@@ -171,10 +175,10 @@ export default function About() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="relative rounded-3xl p-10 md:p-16 text-center overflow-hidden"
+          className="relative rounded-3xl p-10 md:p-16 text-center overflow-hidden gradient-border"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.04] via-transparent to-accent-green/[0.04]" />
-          <div className="absolute inset-0 border border-white/5 rounded-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.06] via-transparent to-accent-green/[0.06]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-accent-cyan/[0.04] rounded-full blur-[100px]" />
           <div className="relative z-10">
             <blockquote className="text-2xl md:text-3xl lg:text-4xl font-light text-white/60 leading-relaxed max-w-3xl mx-auto">
               &ldquo;Communities near military bases, manufacturing plants, and airports deserve to know what&apos;s in their water{" "}
