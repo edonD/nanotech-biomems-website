@@ -51,7 +51,7 @@ async function main() {
     console.log("Desktop hero screenshot taken.");
 
     // Scroll through the page to trigger all InView animations
-    const sections = ["problem", "impact", "technology", "whynow", "product", "applications", "about", "contact"];
+    const sections = ["problem", "impact", "technology", "whynow", "product", "applications", "market", "about", "contact"];
     for (const section of sections) {
       await desktopPage.evaluate((id) => {
         const el = document.getElementById(id);

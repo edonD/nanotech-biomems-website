@@ -10,7 +10,8 @@ export default function Contact() {
   return (
     <section id="contact" className="relative section-padding" ref={ref}>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-cyan/20 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent-cyan/5 rounded-full blur-[120px]" />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent-cyan/[0.04] rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-green/[0.04] rounded-full blur-[100px]" />
 
       <div className="max-w-3xl mx-auto relative z-10 text-center">
         <motion.div

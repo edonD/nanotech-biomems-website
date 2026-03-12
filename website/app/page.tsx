@@ -7,6 +7,7 @@ import Technology from "./components/Technology";
 import WhyNow from "./components/WhyNow";
 import Product from "./components/Product";
 import Applications from "./components/Applications";
+import Market from "./components/Market";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -23,6 +24,7 @@ export default function Home() {
       <WhyNow />
       <Product />
       <Applications />
+      <Market />
       <About />
       <Contact />
       <Footer />
