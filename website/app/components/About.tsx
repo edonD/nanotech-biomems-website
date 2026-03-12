@@ -92,30 +92,29 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* Advisory/backing badges */}
+        {/* Vision quote */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="glass-card rounded-3xl p-8 md:p-12 text-center"
+          className="relative rounded-3xl p-10 md:p-16 text-center overflow-hidden"
         >
-          <p className="text-white/30 text-sm mb-8 tracking-wider uppercase font-mono">
-            Domain Expertise
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { area: "MEMS\nFabrication", years: "10+ years" },
-              { area: "Environmental\nSensing", years: "Published research" },
-              { area: "Electrochemistry\n& Surface Science", years: "First principles" },
-              { area: "Regulatory\nCompliance", years: "EPA / ISO" },
-            ].map((item) => (
-              <div key={item.area}>
-                <div className="text-sm text-white/60 whitespace-pre-line leading-snug mb-2">
-                  {item.area}
-                </div>
-                <div className="text-xs text-accent-cyan/50 font-mono">{item.years}</div>
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.04] via-transparent to-accent-green/[0.04]" />
+          <div className="absolute inset-0 border border-white/5 rounded-3xl" />
+          <div className="relative z-10">
+            <blockquote className="text-2xl md:text-3xl lg:text-4xl font-light text-white/60 leading-relaxed max-w-3xl mx-auto">
+              &ldquo;Communities near military bases, manufacturing plants, and airports deserve to know what&apos;s in their water{" "}
+              <span className="text-white/90 font-normal">today</span>, not in six weeks.&rdquo;
+            </blockquote>
+            <div className="mt-8 flex items-center justify-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-cyan/20 to-accent-green/20 border border-white/10 flex items-center justify-center">
+                <span className="text-sm font-bold text-accent-cyan/70">V</span>
               </div>
-            ))}
+              <div className="text-left">
+                <div className="text-sm text-white/50">VERIDIAN Founding Team</div>
+                <div className="text-xs text-white/25 font-mono">Microsystems Engineers</div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@ import ParticleBackground from "./components/ParticleBackground";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Problem from "./components/Problem";
+import ImpactStrip from "./components/ImpactStrip";
 import Technology from "./components/Technology";
 import WhyNow from "./components/WhyNow";
 import Product from "./components/Product";
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Problem />
+      <ImpactStrip />
       <Technology />
       <WhyNow />
       <Product />
