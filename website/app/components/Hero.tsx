@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import ChipVisualization from "./ChipVisualization";
 
 export default function Hero() {
   return (
@@ -9,6 +10,11 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,214,242,0.08)_0%,transparent_60%)]" />
       <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-accent-cyan/5 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent-green/5 rounded-full blur-[100px]" />
+
+      {/* Background chip visualization */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+        <ChipVisualization />
+      </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <motion.div
