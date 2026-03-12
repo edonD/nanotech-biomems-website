@@ -1,7 +1,42 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+
+function AnimatedStat({ number, color, isInView }: { number: string; color: string; isInView: boolean }) {
+  const [displayed, setDisplayed] = useState(number);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (!isInView || hasAnimated.current) return;
+    hasAnimated.current = true;
+
+    // Parse the number portion
+    const match = number.match(/^([^0-9]*)([0-9,]+)(.*)$/);
+    if (!match) return;
+
+    const prefix = match[1];
+    const numStr = match[2].replace(/,/g, "");
+    const suffix = match[3];
+    const target = parseInt(numStr, 10);
+
+    if (isNaN(target)) return;
+
+    const duration = 1800;
+    const startTime = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(eased * target);
+      const formatted = current >= 1000 ? current.toLocaleString() : String(current);
+      setDisplayed(`${prefix}${formatted}${suffix}`);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [isInView, number]);
+
+  return <span className={`text-3xl md:text-4xl font-bold ${color} whitespace-nowrap`}>{displayed}</span>;
+}
 
 const stats = [
   {
@@ -34,6 +69,7 @@ export default function Problem() {
     <section id="problem" className="relative section-padding" ref={ref}>
       {/* Background accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/20 to-transparent" />
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-red-500/[0.03] rounded-full blur-[120px]" />
 
       <div className="max-w-6xl mx-auto">
         <motion.div
@@ -91,11 +127,9 @@ export default function Problem() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                className="glass-card rounded-2xl p-6 flex items-center gap-6"
+                className="glass-card rounded-2xl p-6 flex items-center gap-6 hover:border-white/15 transition-all duration-300"
               >
-                <span className={`text-3xl md:text-4xl font-bold ${stat.color} whitespace-nowrap`}>
-                  {stat.number}
-                </span>
+                <AnimatedStat number={stat.number} color={stat.color} isInView={isInView} />
                 <span className="text-white/40 text-sm leading-snug">
                   {stat.label}
                 </span>

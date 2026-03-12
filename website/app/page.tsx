@@ -4,9 +4,11 @@ import Hero from "./components/Hero";
 import Problem from "./components/Problem";
 import ImpactStrip from "./components/ImpactStrip";
 import Technology from "./components/Technology";
+import Fabrication from "./components/Fabrication";
 import WhyNow from "./components/WhyNow";
 import Product from "./components/Product";
 import Applications from "./components/Applications";
+import Validation from "./components/Validation";
 import Market from "./components/Market";
 import About from "./components/About";
 import Contact from "./components/Contact";
@@ -21,9 +23,11 @@ export default function Home() {
       <Problem />
       <ImpactStrip />
       <Technology />
+      <Fabrication />
       <WhyNow />
       <Product />
       <Applications />
+      <Validation />
       <Market />
       <About />
       <Contact />
