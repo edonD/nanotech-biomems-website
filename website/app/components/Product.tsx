@@ -64,67 +64,156 @@ export default function Product() {
           </h2>
         </motion.div>
 
-        {/* Product visualization */}
+        {/* Product visualization - Reader + Cartridge side by side */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="glass-card rounded-3xl p-10 md:p-16 mb-16 text-center relative overflow-hidden"
+          className="mb-16 relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-accent-cyan/5 to-transparent" />
-          <div className="relative z-10">
-            {/* Stylized device illustration */}
-            <div className="mx-auto w-64 h-80 md:w-80 md:h-96 relative mb-10">
-              {/* Reader body */}
-              <div className="absolute inset-4 rounded-3xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 shadow-2xl">
-                {/* Screen */}
-                <div className="mx-6 mt-8 h-40 md:h-48 rounded-xl bg-[#0a1628] border border-accent-cyan/20 p-4 overflow-hidden">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
-                    <span className="text-[10px] font-mono text-accent-cyan/60">ANALYSIS COMPLETE</span>
-                  </div>
-                  <div className="space-y-2">
-                    {["PFOA", "PFOS", "GenX"].map((compound, i) => (
-                      <div key={compound} className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-white/40">{compound}</span>
-                        <div className="flex-1 mx-3 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={isInView ? { width: `${[65, 82, 23][i]}%` } : {}}
-                            transition={{ duration: 1, delay: 0.8 + i * 0.2, ease: "easeOut" }}
-                            className={`h-full rounded-full ${
-                              i === 1
-                                ? "bg-gradient-to-r from-red-500 to-red-400"
-                                : i === 0
-                                ? "bg-gradient-to-r from-amber-500 to-amber-400"
-                                : "bg-gradient-to-r from-accent-green to-accent-cyan"
-                            }`}
-                          />
-                        </div>
-                        <span className={`text-[10px] font-mono ${
-                          i === 1 ? "text-red-400" : i === 0 ? "text-amber-400" : "text-accent-green"
-                        }`}>
-                          {["12.3", "45.7", "2.1"][i]} ppt
-                        </span>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Reader Device */}
+            <div className="glass-card rounded-3xl p-8 md:p-10 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/5 via-transparent to-accent-blue/5" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-accent-cyan/10 rounded-full blur-[80px]" />
+              <div className="relative z-10">
+                <div className="text-xs font-mono text-accent-cyan/50 mb-6 tracking-wider">READER UNIT</div>
+                {/* Device frame */}
+                <div className="mx-auto w-full max-w-xs rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 p-4 shadow-[0_0_40px_rgba(6,214,242,0.08)]">
+                  {/* Screen */}
+                  <div className="rounded-xl bg-[#060e1f] border border-accent-cyan/15 p-5 mb-4">
+                    {/* Status bar */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
+                        <span className="text-[10px] font-mono text-accent-cyan/70">ANALYSIS COMPLETE</span>
                       </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-white/5">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[9px] font-mono text-white/20">EPA MCL: 4.0 ppt</span>
-                      <span className="text-[9px] font-mono text-red-400/80">EXCEEDS LIMIT</span>
+                      <span className="text-[9px] font-mono text-white/20">09:42</span>
+                    </div>
+                    {/* Results */}
+                    <div className="space-y-3">
+                      {[
+                        { name: "PFOA", value: 12.3, pct: 65, status: "warn" },
+                        { name: "PFOS", value: 45.7, pct: 82, status: "danger" },
+                        { name: "GenX", value: 2.1, pct: 15, status: "safe" },
+                        { name: "PFBS", value: 0.8, pct: 8, status: "safe" },
+                        { name: "PFHxS", value: 6.2, pct: 38, status: "warn" },
+                        { name: "PFNA", value: 1.4, pct: 12, status: "safe" },
+                      ].map((compound, i) => (
+                        <div key={compound.name} className="flex items-center gap-3">
+                          <span className="text-[10px] font-mono text-white/40 w-10">{compound.name}</span>
+                          <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={isInView ? { width: `${compound.pct}%` } : {}}
+                              transition={{ duration: 1.2, delay: 0.8 + i * 0.1, ease: "easeOut" }}
+                              className={`h-full rounded-full ${
+                                compound.status === "danger"
+                                  ? "bg-gradient-to-r from-red-600 to-red-400"
+                                  : compound.status === "warn"
+                                  ? "bg-gradient-to-r from-amber-600 to-amber-400"
+                                  : "bg-gradient-to-r from-emerald-600 to-emerald-400"
+                              }`}
+                            />
+                          </div>
+                          <span className={`text-[10px] font-mono w-14 text-right ${
+                            compound.status === "danger"
+                              ? "text-red-400"
+                              : compound.status === "warn"
+                              ? "text-amber-400"
+                              : "text-emerald-400"
+                          }`}>
+                            {compound.value} ppt
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    {/* Footer */}
+                    <div className="mt-4 pt-3 border-t border-white/5 flex justify-between items-center">
+                      <span className="text-[9px] font-mono text-white/15">EPA MCL: 4.0 ppt (PFOA/PFOS)</span>
+                      <span className="text-[9px] font-mono text-red-400/80 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />
+                        2 EXCEED
+                      </span>
                     </div>
                   </div>
+                  {/* Cartridge slot */}
+                  <div className="rounded-lg bg-white/[0.02] border border-dashed border-accent-cyan/15 py-3 flex items-center justify-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent-cyan/30">
+                      <rect x="4" y="8" width="16" height="12" rx="2" />
+                      <path d="M8 8V6a4 4 0 018 0v2" />
+                    </svg>
+                    <span className="text-[9px] font-mono text-accent-cyan/25 tracking-wider">CARTRIDGE INSERTED</span>
+                  </div>
                 </div>
-                {/* Cartridge slot */}
-                <div className="mx-10 mt-6 h-12 rounded-lg border border-dashed border-white/10 flex items-center justify-center">
-                  <span className="text-[9px] font-mono text-white/20 tracking-wider">CARTRIDGE SLOT</span>
+                <p className="text-white/25 text-xs text-center mt-4 font-mono">
+                  18 x 10 x 6 cm &middot; 450g &middot; USB-C
+                </p>
+              </div>
+            </div>
+
+            {/* Cartridge Detail */}
+            <div className="glass-card rounded-3xl p-8 md:p-10 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-green/5 via-transparent to-accent-cyan/5" />
+              <div className="absolute bottom-0 right-0 w-40 h-40 bg-accent-green/10 rounded-full blur-[60px]" />
+              <div className="relative z-10">
+                <div className="text-xs font-mono text-accent-green/50 mb-6 tracking-wider">SENSOR CARTRIDGE</div>
+                {/* Cartridge visualization */}
+                <div className="mx-auto w-full max-w-xs">
+                  <div className="rounded-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 p-6">
+                    {/* Chip layout */}
+                    <div className="aspect-[3/2] rounded-lg bg-[#060e1f] border border-accent-green/15 p-4 mb-4 relative overflow-hidden">
+                      {/* Grid pattern representing electrode array */}
+                      <div className="absolute inset-3 grid grid-cols-6 gap-1">
+                        {Array.from({ length: 24 }).map((_, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0 }}
+                            animate={isInView ? { opacity: [0.1, 0.4, 0.1] } : {}}
+                            transition={{
+                              duration: 2,
+                              delay: i * 0.05,
+                              repeat: Infinity,
+                              repeatDelay: 1,
+                            }}
+                            className="rounded-sm bg-accent-cyan/30"
+                          />
+                        ))}
+                      </div>
+                      {/* Labels */}
+                      <div className="absolute bottom-2 left-3 right-3 flex justify-between">
+                        {["PFOA", "PFOS", "GenX", "PFBS", "PFHxS", "PFNA"].map((label) => (
+                          <span key={label} className="text-[6px] font-mono text-accent-cyan/30">{label}</span>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Microfluidic channels */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="flex-1 h-1 rounded-full bg-gradient-to-r from-accent-cyan/20 to-accent-green/20" />
+                      <span className="text-[8px] font-mono text-white/20">FLOW PATH</span>
+                      <div className="flex-1 h-1 rounded-full bg-gradient-to-r from-accent-green/20 to-accent-cyan/20" />
+                    </div>
+                    {/* Details */}
+                    <div className="space-y-2">
+                      {[
+                        { label: "Electrode Array", value: "128 channels, 200nm pitch" },
+                        { label: "MIP Layer", value: "6 PFAS-specific receptors" },
+                        { label: "Sample Prep", value: "Passive capillary microfluidics" },
+                        { label: "Filter", value: "Integrated 1µm membrane" },
+                      ].map((item) => (
+                        <div key={item.label} className="flex justify-between text-[9px]">
+                          <span className="text-white/25 font-mono">{item.label}</span>
+                          <span className="text-accent-green/40 font-mono">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-white/25 text-xs text-center mt-4 font-mono">
+                    Single-use &middot; $40/cartridge &middot; 18-month shelf life
+                  </p>
                 </div>
               </div>
             </div>
-            <p className="text-white/30 text-sm max-w-md mx-auto">
-              The VERIDIAN reader: 18 x 10 x 6 cm, rechargeable via USB-C, stores 1,000+ test results locally.
-            </p>
           </div>
         </motion.div>
 

@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Problem from "./components/Problem";
 import Technology from "./components/Technology";
+import WhyNow from "./components/WhyNow";
 import Product from "./components/Product";
 import Applications from "./components/Applications";
 import About from "./components/About";
@@ -17,6 +18,7 @@ export default function Home() {
       <Hero />
       <Problem />
       <Technology />
+      <WhyNow />
       <Product />
       <Applications />
       <About />
