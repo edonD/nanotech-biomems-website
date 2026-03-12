@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import TiltCard from "./TiltCard";
 
 const applications = [
   {
@@ -10,6 +11,8 @@ const applications = [
     statLabel: "US systems mandated to test",
     description:
       "Every public water system in America must now monitor for PFAS under EPA's 2024 MCL rule. VERIDIAN enables utilities to screen intake sources, treatment stages, and distribution points daily instead of quarterly — catching contamination events before they reach consumers.",
+    accent: "from-accent-cyan/10 to-accent-cyan/5",
+    border: "hover:border-accent-cyan/20",
     icon: (
       <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M16 4v24" />
@@ -26,6 +29,8 @@ const applications = [
     statLabel: "contaminated installations",
     description:
       "AFFF firefighting foam has contaminated water at hundreds of military bases. DoD has allocated $3.4B for PFAS remediation, but cleanup can't start without characterization data. VERIDIAN provides rapid site assessment at a fraction of current costs.",
+    accent: "from-red-400/10 to-red-500/5",
+    border: "hover:border-red-400/20",
     icon: (
       <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M16 4l12 6v10l-12 8-12-8V10z" />
@@ -40,6 +45,8 @@ const applications = [
     statLabel: "more data points per project",
     description:
       "Environmental consultants managing PFAS investigations test thousands of monitoring wells and surface water locations. At $400/lab test, budgets limit data density. At $40/test with instant results, consultants can build high-resolution contamination maps that precisely delineate plume boundaries.",
+    accent: "from-accent-green/10 to-accent-green/5",
+    border: "hover:border-accent-green/20",
     icon: (
       <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="16" cy="16" r="12" />
@@ -55,6 +62,8 @@ const applications = [
     statLabel: "estimated remediation market",
     description:
       "Chemical plants, semiconductor fabs, and manufacturing facilities face PFAS discharge limits. Continuous monitoring of effluent streams with VERIDIAN replaces monthly grab samples, enabling real-time process control and instantaneous exceedance alerts.",
+    accent: "from-amber-400/10 to-amber-500/5",
+    border: "hover:border-amber-400/20",
     icon: (
       <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M8 6h4v8l-6 12h20l-6-12V6h4" />
@@ -70,6 +79,8 @@ const applications = [
     statLabel: "acres irrigated with PFAS-impacted water",
     description:
       "PFAS in irrigation water accumulates in crops and livestock. Farms near contaminated sites need affordable screening to verify water sources are safe. VERIDIAN enables farmers to test irrigation wells, runoff, and water storage without lab contracts.",
+    accent: "from-accent-green/10 to-green-500/5",
+    border: "hover:border-green-400/20",
     icon: (
       <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M16 28V12" />
@@ -85,6 +96,8 @@ const applications = [
     statLabel: "from sample to decision",
     description:
       "When a fire, industrial spill, or flooding event occurs, first responders need to know immediately if water sources are compromised. VERIDIAN's portability and speed enable real-time contamination assessment in the field during active incidents.",
+    accent: "from-accent-purple/10 to-purple-500/5",
+    border: "hover:border-purple-400/20",
     icon: (
       <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M16 4L4 16h8v12h8V16h8z" />
@@ -123,18 +136,26 @@ export default function Applications() {
               key={app.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
-              className="glass-card rounded-2xl p-8 group hover:border-accent-cyan/15 transition-all duration-500"
+              transition={{ duration: 0.5, delay: 0.2 + i * 0.08 }}
             >
-              <div className="text-accent-cyan/40 group-hover:text-accent-cyan/70 transition-colors mb-6">
-                {app.icon}
-              </div>
-              <h3 className="text-lg font-semibold mb-1 text-white/85">{app.title}</h3>
-              <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-2xl font-bold gradient-text">{app.stat}</span>
-                <span className="text-xs text-white/30">{app.statLabel}</span>
-              </div>
-              <p className="text-white/35 text-sm leading-relaxed">{app.description}</p>
+              <TiltCard
+                className={`glass-card rounded-2xl p-8 h-full group ${app.border} transition-all duration-500 relative overflow-hidden`}
+                maxTilt={4}
+              >
+                {/* Subtle gradient bg */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${app.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
+                <div className="relative z-10">
+                  <div className="text-accent-cyan/40 group-hover:text-accent-cyan/70 transition-colors mb-6">
+                    {app.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold mb-1 text-white/85">{app.title}</h3>
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-2xl font-bold gradient-text">{app.stat}</span>
+                    <span className="text-xs text-white/30">{app.statLabel}</span>
+                  </div>
+                  <p className="text-white/35 text-sm leading-relaxed">{app.description}</p>
+                </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

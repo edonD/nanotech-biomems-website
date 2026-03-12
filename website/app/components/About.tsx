@@ -3,6 +3,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
+const credentials = [
+  "M.Sc. Microsystems Engineering",
+  "Cleanroom Fabrication (Class 100/1000)",
+  "MEMS Sensor Design & Characterization",
+  "Electrochemical Surface Science",
+];
+
 export default function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -46,11 +53,42 @@ export default function About() {
               translate recent breakthroughs in nanostructured sensors into a product
               that works reliably in the field.
             </p>
-            <p className="text-lg text-white/50 leading-relaxed">
+            <p className="text-lg text-white/50 leading-relaxed mb-8">
               We&apos;re not just building a sensor. We&apos;re building the
               infrastructure for a world where knowing what&apos;s in your water is
               as easy as checking the weather.
             </p>
+
+            {/* Founder profile */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="glass-card rounded-xl p-6"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-accent-cyan/20 to-accent-green/20 border border-white/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold gradient-text">V</span>
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-white/80">Founding Team</div>
+                  <div className="text-xs text-white/30 font-mono">Microsystems Engineers</div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {credentials.map((cred, i) => (
+                  <motion.span
+                    key={cred}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.5 + i * 0.08 }}
+                    className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-accent-cyan/5 border border-accent-cyan/10 text-accent-cyan/50"
+                  >
+                    {cred}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -59,23 +97,51 @@ export default function About() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="space-y-6"
           >
-            {/* Capabilities */}
             {[
               {
                 title: "Microsystems Engineering",
                 description: "Cleanroom fabrication, photolithography, thin-film deposition, DRIE, wafer-level packaging. We design and build sensor chips from scratch.",
+                icon: (
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3" />
+                  </svg>
+                ),
+                gradient: "from-accent-cyan/10 to-accent-blue/5",
               },
               {
                 title: "Electrochemical Sensing",
                 description: "Deep expertise in impedance spectroscopy, voltammetry, and electrode surface functionalization. We understand the physics from first principles.",
+                icon: (
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M2 12h4l3-8 4 16 3-8h6" />
+                  </svg>
+                ),
+                gradient: "from-accent-green/10 to-accent-cyan/5",
               },
               {
                 title: "Microfluidic Integration",
                 description: "Passive and active flow control, capillary systems, on-chip filtration. Sample handling that works without pumps or external equipment.",
+                icon: (
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M12 3v18" />
+                    <path d="M5 8c0 4 7 4 7 8s7 4 7 0" />
+                  </svg>
+                ),
+                gradient: "from-accent-blue/10 to-accent-purple/5",
               },
               {
                 title: "Machine Learning for Sensors",
                 description: "Signal processing models trained on thousands of spectra. Edge inference on embedded hardware for real-time, matrix-corrected results.",
+                icon: (
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="6" cy="6" r="2" /><circle cx="18" cy="6" r="2" />
+                    <circle cx="6" cy="18" r="2" /><circle cx="18" cy="18" r="2" />
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M7.5 7.5l3 3M16.5 7.5l-3 3M7.5 16.5l3-3M16.5 16.5l-3-3" />
+                  </svg>
+                ),
+                gradient: "from-accent-purple/10 to-accent-cyan/5",
               },
             ].map((cap, i) => (
               <motion.div
@@ -83,10 +149,18 @@ export default function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                className="glass-card rounded-xl p-6"
+                className="glass-card rounded-xl p-6 group hover:border-accent-cyan/15 hover:shadow-[0_0_30px_rgba(6,214,242,0.04)] transition-all duration-500 relative overflow-hidden"
               >
-                <h4 className="font-semibold text-white/80 mb-2">{cap.title}</h4>
-                <p className="text-sm text-white/35 leading-relaxed">{cap.description}</p>
+                <div className={`absolute inset-0 bg-gradient-to-br ${cap.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-lg bg-accent-cyan/10 border border-accent-cyan/15 flex items-center justify-center text-accent-cyan/40 group-hover:text-accent-cyan/70 transition-colors">
+                      {cap.icon}
+                    </div>
+                    <h4 className="font-semibold text-white/80">{cap.title}</h4>
+                  </div>
+                  <p className="text-sm text-white/35 leading-relaxed ml-11">{cap.description}</p>
+                </div>
               </motion.div>
             ))}
           </motion.div>

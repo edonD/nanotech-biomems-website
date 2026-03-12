@@ -130,6 +130,75 @@ body {
 /* Performance optimizations */
 .glass-card {
   will-change: transform;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Enhanced glass card hover */
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Animated gradient border on focus */
+.gradient-border-animated {
+  position: relative;
+  overflow: hidden;
+}
+.gradient-border-animated::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(6,214,242,0.15) 60deg, transparent 120deg);
+  animation: border-spin 6s linear infinite;
+  z-index: -1;
+}
+@keyframes border-spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Subtle text glow on accent text */
+.text-glow-cyan {
+  text-shadow: 0 0 30px rgba(6,214,242,0.3);
+}
+
+/* Premium focus ring for form inputs */
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 2px rgba(6, 214, 242, 0.1), 0 0 20px rgba(6, 214, 242, 0.05);
+}
+
+/* Smooth section snap hint on desktop */
+@media (min-width: 1024px) {
+  .section-padding {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Table row highlight animation */
+tr {
+  transition: background-color 0.2s ease;
+}
+
+/* Animated gradient shimmer for featured elements */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    rgba(6, 214, 242, 0.7) 0%,
+    rgba(0, 255, 136, 0.9) 25%,
+    rgba(6, 214, 242, 0.7) 50%,
+    rgba(139, 92, 246, 0.9) 75%,
+    rgba(6, 214, 242, 0.7) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

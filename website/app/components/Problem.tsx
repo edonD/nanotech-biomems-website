@@ -138,7 +138,7 @@ export default function Problem() {
           </motion.div>
         </div>
 
-        {/* Comparison visualization */}
+        {/* Comparison visualization with row-by-row animation */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -148,7 +148,16 @@ export default function Problem() {
           <h3 className="text-xl font-semibold mb-10 text-center text-white/70">
             Current Testing vs. VERIDIAN
           </h3>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 relative">
+            {/* Animated VS divider */}
+            <div className="hidden md:flex absolute left-1/2 top-0 bottom-0 -translate-x-1/2 flex-col items-center justify-center z-10">
+              <motion.div
+                initial={{ height: 0 }}
+                animate={isInView ? { height: "100%" } : {}}
+                transition={{ duration: 1, delay: 0.8 }}
+                className="w-px bg-gradient-to-b from-red-500/20 via-white/10 to-accent-cyan/20"
+              />
+            </div>
             {/* Current */}
             <div className="rounded-2xl border border-red-500/10 bg-red-500/[0.02] p-8">
               <div className="text-red-400 font-mono text-xs tracking-widest uppercase mb-6">
@@ -161,11 +170,17 @@ export default function Problem() {
                   { label: "Equipment", value: "$500K+ LC-MS/MS" },
                   { label: "Location", value: "Certified lab only" },
                   { label: "Operator", value: "PhD chemist required" },
-                ].map((item) => (
-                  <div key={item.label} className="flex justify-between items-center border-b border-white/5 pb-3">
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, x: -15 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.7 + i * 0.1 }}
+                    className="flex justify-between items-center border-b border-white/5 pb-3"
+                  >
                     <span className="text-white/30 text-sm">{item.label}</span>
                     <span className="text-red-300/70 text-sm font-mono">{item.value}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -181,11 +196,17 @@ export default function Problem() {
                   { label: "Equipment", value: "$3,500 handheld reader" },
                   { label: "Location", value: "Any field site" },
                   { label: "Operator", value: "Minimal training" },
-                ].map((item) => (
-                  <div key={item.label} className="flex justify-between items-center border-b border-white/5 pb-3">
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, x: 15 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.85 + i * 0.1 }}
+                    className="flex justify-between items-center border-b border-white/5 pb-3"
+                  >
                     <span className="text-white/30 text-sm">{item.label}</span>
                     <span className="text-accent-cyan/80 text-sm font-mono">{item.value}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>

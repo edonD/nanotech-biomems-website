@@ -143,10 +143,13 @@ function ElectrodeBuildUp({ isInView }: { isInView: boolean }) {
                   animate={isInView ? { opacity: 1 } : {}}
                   transition={{ delay: 1.5 }}
                 >
-                  {Array.from({ length: 16 }).map((_, j) => (
-                    <rect key={j} x={48 + j * 10} y={y} width={2} height={-4 - Math.random() * 6}
-                      fill="rgba(245,178,11,0.5)" rx="1" />
-                  ))}
+                  {Array.from({ length: 16 }).map((_, j) => {
+                    const h = 4 + (j * 7 % 5) + ((j * 3) % 4);
+                    return (
+                      <rect key={j} x={48 + j * 10} y={y - h} width={2} height={h}
+                        fill="rgba(245,178,11,0.5)" rx="1" />
+                    );
+                  })}
                 </motion.g>
               )}
               <motion.text
@@ -334,6 +337,64 @@ function getDiagram(type: string, isInView: boolean) {
   }
 }
 
+/* Per-card component with its own InView trigger */
+function TechLayerCard({ layer, index }: { layer: typeof techLayers[0]; index: number }) {
+  const cardRef = useRef(null);
+  const cardInView = useInView(cardRef, { once: true, margin: "-60px" });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 30 }}
+      animate={cardInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="glass-card rounded-2xl p-6 md:p-8 group hover:border-accent-cyan/20 hover:shadow-[0_0_40px_rgba(6,214,242,0.06)] transition-all duration-500"
+    >
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+        {/* Text content */}
+        <div className="flex-1">
+          <div className="flex items-start gap-4 mb-4">
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={cardInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="flex items-center justify-center w-8 h-8 rounded-lg bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan/50 font-mono text-xs mt-0.5 flex-shrink-0"
+            >
+              {layer.number}
+            </motion.span>
+            <div>
+              <h3 className="text-xl md:text-2xl font-semibold text-white/90">
+                {layer.title}
+              </h3>
+            </div>
+          </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={cardInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="text-white/40 leading-relaxed mb-3 ml-12"
+          >
+            {layer.description}
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={cardInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-white/25 text-sm leading-relaxed font-mono ml-12"
+          >
+            {layer.detail}
+          </motion.p>
+        </div>
+
+        {/* Animated diagram — triggers only when this card enters view */}
+        <div className="lg:w-[320px] flex-shrink-0 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+          {getDiagram(layer.diagram, cardInView)}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Technology() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -400,41 +461,10 @@ export default function Technology() {
           </div>
         </motion.div>
 
-        {/* Tech layers with diagrams */}
+        {/* Tech layers — each card triggers its own diagram animation */}
         <div className="space-y-8">
           {techLayers.map((layer, i) => (
-            <motion.div
-              key={layer.number}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 + i * 0.12 }}
-              className="glass-card rounded-2xl p-6 md:p-8 group hover:border-accent-cyan/20 transition-all duration-500"
-            >
-              <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
-                {/* Text content */}
-                <div className="flex-1">
-                  <div className="flex items-start gap-4 mb-4">
-                    <span className="text-accent-cyan/30 font-mono text-sm mt-1">{layer.number}</span>
-                    <div>
-                      <h3 className="text-xl md:text-2xl font-semibold text-white/90">
-                        {layer.title}
-                      </h3>
-                    </div>
-                  </div>
-                  <p className="text-white/40 leading-relaxed mb-3 ml-9">
-                    {layer.description}
-                  </p>
-                  <p className="text-white/25 text-sm leading-relaxed font-mono ml-9">
-                    {layer.detail}
-                  </p>
-                </div>
-
-                {/* Animated diagram */}
-                <div className="lg:w-[320px] flex-shrink-0 p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                  {getDiagram(layer.diagram, isInView)}
-                </div>
-              </div>
-            </motion.div>
+            <TechLayerCard key={layer.number} layer={layer} index={i} />
           ))}
         </div>
       </div>

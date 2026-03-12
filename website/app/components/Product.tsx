@@ -81,7 +81,13 @@ export default function Product() {
                 {/* Device frame */}
                 <div className="mx-auto w-full max-w-xs rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 p-4 shadow-[0_0_40px_rgba(6,214,242,0.08)]">
                   {/* Screen */}
-                  <div className="rounded-xl bg-[#060e1f] border border-accent-cyan/15 p-5 mb-4">
+                  <div className="rounded-xl bg-[#060e1f] border border-accent-cyan/15 p-5 mb-4 relative overflow-hidden">
+                    {/* Scan line effect */}
+                    <motion.div
+                      className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-cyan/40 to-transparent pointer-events-none z-10"
+                      animate={{ top: ["0%", "100%"] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
+                    />
                     {/* Status bar */}
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -227,25 +233,33 @@ export default function Product() {
           <h3 className="text-2xl font-semibold mb-10 text-center text-white/70">
             Four steps. Ten minutes. Complete PFAS profile.
           </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {steps.map((s, i) => (
               <motion.div
                 key={s.step}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                className="glass-card rounded-2xl p-6 relative"
+                transition={{ duration: 0.5, delay: 0.4 + i * 0.12 }}
+                className="glass-card rounded-2xl p-6 relative group hover:border-accent-cyan/15 transition-all duration-300"
               >
-                <div className="text-5xl font-bold text-accent-cyan/[0.07] absolute top-4 right-4 font-mono">
+                <div className="text-5xl font-bold text-accent-cyan/[0.07] absolute top-4 right-4 font-mono group-hover:text-accent-cyan/10 transition-colors">
                   {s.step}
                 </div>
                 <div className="relative z-10">
-                  <div className="w-10 h-10 rounded-xl bg-accent-cyan/10 border border-accent-cyan/20 flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-accent-cyan/10 border border-accent-cyan/20 flex items-center justify-center mb-4 group-hover:bg-accent-cyan/15 group-hover:shadow-[0_0_20px_rgba(6,214,242,0.1)] transition-all duration-300">
                     <span className="text-accent-cyan font-mono text-sm font-bold">{s.step}</span>
                   </div>
                   <h4 className="text-lg font-semibold mb-2 text-white/80">{s.title}</h4>
                   <p className="text-white/35 text-sm leading-relaxed">{s.description}</p>
                 </div>
+                {/* Arrow connector (hidden on small screens) */}
+                {i < steps.length - 1 && (
+                  <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-20">
+                    <svg width="12" height="12" viewBox="0 0 12 12" className="text-accent-cyan/20">
+                      <path d="M2 6h8M7 3l3 3-3 3" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                    </svg>
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
@@ -260,14 +274,17 @@ export default function Product() {
         >
           <h3 className="text-xl font-semibold mb-8 text-white/70">Technical Specifications</h3>
           <div className="grid md:grid-cols-2 gap-x-12 gap-y-0">
-            {specs.map((spec) => (
-              <div
+            {specs.map((spec, i) => (
+              <motion.div
                 key={spec.label}
-                className="flex justify-between items-center py-4 border-b border-white/5"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.3, delay: 0.6 + i * 0.05 }}
+                className="flex justify-between items-center py-4 border-b border-white/5 hover:bg-white/[0.02] -mx-3 px-3 rounded transition-colors"
               >
                 <span className="text-white/30 text-sm">{spec.label}</span>
                 <span className="text-white/70 text-sm font-mono text-right">{spec.value}</span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>

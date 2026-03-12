@@ -10,16 +10,33 @@ const links = [
   { href: "#product", label: "Product" },
   { href: "#applications", label: "Applications" },
   { href: "#validation", label: "Validation" },
+  { href: "#market", label: "Market" },
   { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+
+      // Determine active section
+      const sections = links.map((l) => l.href.slice(1));
+      let current = "";
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200) current = id;
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -36,8 +53,8 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-green flex items-center justify-center">
+          <a href="#" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-green flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(6,214,242,0.3)] transition-shadow duration-300">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-[#030712]">
                 <path d="M12 2L12 22" />
                 <path d="M2 12L22 12" />
@@ -49,18 +66,30 @@ export default function Navbar() {
           </a>
 
           <div className="hidden md:flex items-center gap-8">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-white/50 hover:text-accent-cyan transition-colors duration-300"
-              >
-                {link.label}
-              </a>
-            ))}
+            {links.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm transition-colors duration-300 relative ${
+                    isActive ? "text-accent-cyan" : "text-white/50 hover:text-accent-cyan"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-accent-cyan"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
             <a
               href="#contact"
-              className="text-sm px-5 py-2 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan hover:bg-accent-cyan/20 transition-all duration-300"
+              className="text-sm px-5 py-2 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan hover:bg-accent-cyan/20 hover:shadow-[0_0_20px_rgba(6,214,242,0.15)] transition-all duration-300"
             >
               Get Early Access
             </a>
@@ -94,15 +123,20 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-[#030712]/95 backdrop-blur-xl pt-24 px-8 md:hidden"
           >
             <div className="flex flex-col gap-6">
-              {links.map((link) => (
-                <a
+              {links.map((link, i) => (
+                <motion.a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-2xl font-light text-white/70 hover:text-accent-cyan transition-colors"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className={`text-2xl font-light transition-colors ${
+                    activeSection === link.href.slice(1) ? "text-accent-cyan" : "text-white/70 hover:text-accent-cyan"
+                  }`}
                 >
                   {link.label}
-                </a>
+                </motion.a>
               ))}
               <a
                 href="#contact"

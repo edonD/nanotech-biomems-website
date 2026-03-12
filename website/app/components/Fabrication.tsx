@@ -126,6 +126,71 @@ function CrossSectionAnimation({ stepIndex, layers, isInView }: { stepIndex: num
   );
 }
 
+function FabStepCard({ step, index, totalSteps }: { step: typeof fabricationSteps[0]; index: number; totalSteps: number }) {
+  const cardRef = useRef(null);
+  const cardInView = useInView(cardRef, { once: true, margin: "-60px" });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 30 }}
+      animate={cardInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="glass-card rounded-2xl p-6 md:p-8 group hover:border-white/15 hover:shadow-[0_0_30px_rgba(255,255,255,0.02)] transition-all duration-500"
+    >
+      <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+        {/* Step number + accent */}
+        <div className="flex items-center gap-4 md:flex-col md:items-center md:w-20 flex-shrink-0">
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={cardInView ? { scale: 1, opacity: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className={`w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} border border-white/10 flex items-center justify-center`}
+          >
+            <span className={`text-sm font-bold font-mono ${step.accent}`}>{step.step}</span>
+          </motion.div>
+          {index < totalSteps - 1 && (
+            <motion.div
+              initial={{ height: 0 }}
+              animate={cardInView ? { height: 32 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="hidden md:block w-px bg-gradient-to-b from-white/10 to-transparent overflow-hidden"
+            />
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white/90">
+            {step.title}
+          </h3>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={cardInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="text-white/40 leading-relaxed mb-3"
+          >
+            {step.description}
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={cardInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="text-white/25 text-sm font-mono"
+          >
+            {step.detail}
+          </motion.p>
+        </div>
+
+        {/* Cross-section visualization */}
+        <div className="hidden lg:flex flex-shrink-0 items-center">
+          <CrossSectionAnimation stepIndex={index} layers={step.layers} isInView={cardInView} />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Fabrication() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -176,43 +241,7 @@ export default function Fabrication() {
         {/* Fabrication steps */}
         <div className="space-y-8">
           {fabricationSteps.map((step, i) => (
-            <motion.div
-              key={step.step}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.08 }}
-              className={`glass-card rounded-2xl p-6 md:p-8 group hover:border-white/15 transition-all duration-500`}
-            >
-              <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
-                {/* Step number + accent */}
-                <div className="flex items-center gap-4 md:flex-col md:items-center md:w-20 flex-shrink-0">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} border border-white/10 flex items-center justify-center`}>
-                    <span className={`text-sm font-bold font-mono ${step.accent}`}>{step.step}</span>
-                  </div>
-                  {i < fabricationSteps.length - 1 && (
-                    <div className="hidden md:block w-px h-8 bg-gradient-to-b from-white/10 to-transparent" />
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white/90">
-                    {step.title}
-                  </h3>
-                  <p className="text-white/40 leading-relaxed mb-3">
-                    {step.description}
-                  </p>
-                  <p className="text-white/25 text-sm font-mono">
-                    {step.detail}
-                  </p>
-                </div>
-
-                {/* Cross-section visualization */}
-                <div className="hidden lg:flex flex-shrink-0 items-center">
-                  <CrossSectionAnimation stepIndex={i} layers={step.layers} isInView={isInView} />
-                </div>
-              </div>
-            </motion.div>
+            <FabStepCard key={step.step} step={step} index={i} totalSteps={fabricationSteps.length} />
           ))}
         </div>
 

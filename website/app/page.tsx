@@ -1,3 +1,7 @@
+"use client";
+
+import LoadingSequence from "./components/LoadingSequence";
+import MouseSpotlight from "./components/MouseSpotlight";
 import ParticleBackground from "./components/ParticleBackground";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -16,22 +20,25 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <main className="relative">
-      <ParticleBackground />
-      <Navbar />
-      <Hero />
-      <Problem />
-      <ImpactStrip />
-      <Technology />
-      <Fabrication />
-      <WhyNow />
-      <Product />
-      <Applications />
-      <Validation />
-      <Market />
-      <About />
-      <Contact />
-      <Footer />
-    </main>
+    <LoadingSequence>
+      <main className="relative">
+        <MouseSpotlight />
+        <ParticleBackground />
+        <Navbar />
+        <Hero />
+        <Problem />
+        <ImpactStrip />
+        <Technology />
+        <Fabrication />
+        <WhyNow />
+        <Product />
+        <Applications />
+        <Validation />
+        <Market />
+        <About />
+        <Contact />
+        <Footer />
+      </main>
+    </LoadingSequence>
   );
 }
