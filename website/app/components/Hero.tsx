@@ -148,9 +148,10 @@ export default function Hero() {
         >
           <a
             href="#contact"
-            className="group px-8 py-4 rounded-full bg-gradient-to-r from-accent-cyan to-accent-green text-[#030712] font-semibold hover:shadow-[0_0_40px_rgba(6,214,242,0.4)] transition-all duration-300 hover:scale-105"
+            className="group relative px-8 py-4 rounded-full bg-gradient-to-r from-accent-cyan to-accent-green text-[#030712] font-semibold hover:shadow-[0_0_40px_rgba(6,214,242,0.4)] transition-all duration-300 hover:scale-105"
           >
-            Request Early Access
+            <span className="absolute inset-0 rounded-full bg-gradient-to-r from-accent-cyan to-accent-green blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+            <span className="relative">Request Early Access</span>
           </a>
           <a
             href="#technology"

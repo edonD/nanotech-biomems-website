@@ -209,6 +209,13 @@ tr {
   }
 }
 
+/* Section divider */
+.section-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(6, 214, 242, 0.15), transparent);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

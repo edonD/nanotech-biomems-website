@@ -17,11 +17,13 @@ import Market from "./components/Market";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import ScrollProgress from "./components/ScrollProgress";
 
 export default function Home() {
   return (
     <LoadingSequence>
       <main className="relative">
+        <ScrollProgress />
         <MouseSpotlight />
         <ParticleBackground />
         <Navbar />
